@@ -1,14 +1,56 @@
 import clone from 'clone';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { AnimatedTree } from 'react-tree-graph';
 import { setActiveNode } from '../Reducers/actions';
+
+import { Tooltip } from 'react-tooltip';
 
 function handleClick(event, node) {
 	setActiveNode(node);
 }
 
+function handleScroll(event) {
+	console.log("Scroll");
+}
+
+function path(x1, y1, x2, y2) {
+	return `M${x1},${y1} ${x2},${y2}`;
+}
+
+// function handleHover(node, current) {
+// 	// console.log(node);
+// 	current = current.root || current;
+// 	if (current.name === node) {
+// 		// console.log(current);
+// 		let res = current.children?.length || 0;
+// 		console.log(`return result: ${res}`);
+// 		return current;
+// 	}
+
+// 	for (let i = 0; i < current.children?.length; i++) {
+// 		// console.log("recursion");
+// 		const childJson = handleHover(node, current.children[i]);
+// 		if (childJson) {
+// 			// console.log("recursion return");
+// 			return childJson;
+// 		}
+// 	}
+
+// 	// console.log("return false");
+// 	return false;
+// }
+
 export default function TreeContainer(props) {
+	const [shouldRender, setShouldRender] = useState(true);
+
+	// Force a brief unmount-remount cycle when props change
+	useEffect(() => {
+		setShouldRender(false);
+		const timer = setTimeout(() => setShouldRender(true), 50);
+		return () => clearTimeout(timer);
+	}, [props.data, props.filter, props.width, props.height]);
+
 	function getRoot(json) {
 		if (json.name === props.activeNode) {
 			return json;
@@ -67,20 +109,44 @@ export default function TreeContainer(props) {
 
 	setClassName(root);
 
+	let offset = (props.width - props.height) / 2;
+
+	if (!shouldRender) {
+		return <main></main>;
+	}
+
 	return (
 		<main>
 			<AnimatedTree
 				data={root}
-				height={props.height}
-				width={props.width}
+				labelProp="label"
+				direction="rtl"
+				width={props.height}
+				height={props.width}
+				pathFunc={path}
+				svgProps={{
+					transform: `rotate(-90) translate(${offset},${offset})`,
+					onWheel: handleScroll
+				}}
 				gProps={{
 					className: 'node',
-					onClick: handleClick
+					onClick: handleClick,
+					// onMouseOver: (event, node) => handleHover(node, {root})
 				}}
+				// nodeShape='rect'
+				// nodeProps={{
+				// 	height: 10,
+				// 	width: 5
+				// }}
 				textProps={{
-					dy: 3.5
+					// dx: -14,
+					// dy: 14,
+					// dx:0,
+					// dy:0,
+					// transform: "rotate(-90)"
 				}}
 				steps={30}/>
+				<Tooltip id="my-tooltip" />
 		</main>
 	);
 }

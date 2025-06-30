@@ -3,6 +3,8 @@ import React, { useEffect } from 'react';
 import { setActiveNode, setFilter, resize } from '../Reducers/actions';
 import Filter from './filter';
 
+import { useControls } from "react-zoom-pan-pinch";
+
 function handleClick() {
 	setActiveNode(null);
 	setFilter('');
@@ -10,13 +12,16 @@ function handleClick() {
 
 export default function Header(props) {
 	useEffect(resize, []);
+	const { zoomIn, zoomOut, resetTransform } = useControls();
 
 	return (
 		<header id="header">
-			<Filter filter={props.filter}/>
-			<button onClick={handleClick}>Reset</button>
-			<a href="https://github.com/jpb12/tree-viewer">View Source</a>
-			<span>Last Updated: {props.timestamp}</span>
+			{/* <Filter filter={props.filter}/> */}
+			<button onClick={() => {resetTransform(); handleClick()}}>Reset</button>
+			{/* <a href="https://github.com/jpb12/tree-viewer">View Source</a> */}
+			<button onClick={() => zoomIn()}>+</button>
+			<button onClick={() => zoomOut()}>-</button>
+			<button onClick={() => resetTransform()}>x</button>
 		</header>
 	);
 }

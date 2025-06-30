@@ -9,7 +9,7 @@ module.exports = {
 	context: __dirname,
 	entry: './app.js',
 	output: {
-		path: path.join(__dirname, 'docs'),
+		path: path.join(__dirname, 'html'),
 		filename: 'app.js'
 	},
 	optimization: {
