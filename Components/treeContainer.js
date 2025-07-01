@@ -135,8 +135,10 @@ export default function TreeContainer(props) {
 				}}
 				// nodeShape='rect'
 				// nodeProps={{
-				// 	height: 10,
-				// 	width: 5
+				// 	height: 64,
+				// 	width: 5,
+				// 	rx: 64,
+				// 	ry: 64
 				// }}
 				textProps={{
 					// dx: -14,
@@ -145,7 +147,7 @@ export default function TreeContainer(props) {
 					// dy:0,
 					// transform: "rotate(-90)"
 				}}
-				steps={30}/>
+				steps={20}/>
 				<Tooltip id="my-tooltip" />
 		</main>
 	);

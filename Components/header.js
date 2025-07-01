@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { setActiveNode, setFilter, resize } from '../Reducers/actions';
+import ExportSvg from './ExportSvg';
 import Filter from './filter';
 
 import { useControls } from "react-zoom-pan-pinch";
@@ -22,6 +23,7 @@ export default function Header(props) {
 			<button onClick={() => zoomIn()}>+</button>
 			<button onClick={() => zoomOut()}>-</button>
 			<button onClick={() => resetTransform()}>x</button>
+			<ExportSvg />
 		</header>
 	);
 }

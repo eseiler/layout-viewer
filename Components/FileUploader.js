@@ -88,6 +88,7 @@ const FileUploader = () => {
         type="file"
         // accept=".txt,.log,.md" // Update to accept relevant file types
         onChange={handleFileUpload}
+        id="uploaded-file"
       />
     </div>
   );

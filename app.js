@@ -27,7 +27,11 @@ function App() {
 
     return (
         <div id="container">
-            <TransformWrapper>
+            <TransformWrapper
+                initialScale={1}
+                minScale={0.5}
+                limitToBounds={false}
+                centerOnInit={true}>
             <Header filter={filter}/>
             <FileUploader />
                 <TransformComponent
